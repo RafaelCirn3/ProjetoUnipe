@@ -42,7 +42,7 @@ cd ConsultaCEP
 python manage.py startapp app
 ```
 
-### Registrar o app `enderecos` no `settings.py`:
+### Registrar o app `app` no `settings.py`:
 No arquivo `ConsultaCEP/settings.py`, adicione:
 ```python
 INSTALLED_APPS = [
