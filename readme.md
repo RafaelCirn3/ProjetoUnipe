@@ -16,7 +16,7 @@ Learn Docker in 7 Easy Steps - Full Beginner's Tutorial
 https://www.youtube.com/watch?v=gAkwW2tuIqE&t=160s
 
 
-# Documentação para o projeto Django "ConsultaCEP"
+# Documentação para criar um projeto Django
 
 ## 1. Configuração Inicial do Projeto
 
