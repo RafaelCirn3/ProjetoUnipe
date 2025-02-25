@@ -33,13 +33,13 @@ pip install django
 
 ### Criar o projeto Django:
 ```sh
-django-admin startproject ConsultaCEP
+django-admin startproject projeto
 cd ConsultaCEP
 ```
 
-### Criar o aplicativo "enderecos":
+### Criar o aplicativo "app":
 ```sh
-python manage.py startapp enderecos
+python manage.py startapp app
 ```
 
 ### Registrar o app `enderecos` no `settings.py`:
@@ -52,12 +52,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'enderecos',
+    'app',
 ]
 ```
 
 ## 2. Criar o Modelo
-No arquivo `enderecos/models.py`, defina o modelo:
+No arquivo `app/models.py`, defina o modelo:
 ```python
 from django.db import models
 
@@ -72,7 +72,7 @@ python manage.py migrate
 ```
 
 ## 3. Criar os Forms
-No arquivo `enderecos/forms.py`, defina o form:
+No arquivo `app/forms.py`, defina o form:
 ```python
 from django import forms
 from .models import ExemploModel
