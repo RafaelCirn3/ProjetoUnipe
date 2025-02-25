@@ -61,19 +61,13 @@ No arquivo `enderecos/models.py`, defina o modelo:
 ```python
 from django.db import models
 
-class EnderecosModel(models.Model):
-    cep = models.CharField(max_length=9)
-    bairro = models.CharField(max_length=100)
-    localidade = models.CharField(max_length=100)
-    regiao = models.CharField(max_length=100)
-    
-    def __str__(self):
-        return f"{self.cep} - {self.localidade}"
+class ExemploModel(models.Model):
+
 ```
 
 ### Criar e aplicar as migrações:
 ```sh
-python manage.py makemigrations enderecos
+python manage.py makemigrations 
 python manage.py migrate
 ```
 
@@ -81,111 +75,81 @@ python manage.py migrate
 No arquivo `enderecos/forms.py`, defina o form:
 ```python
 from django import forms
-from .models import EnderecosModel
+from .models import ExemploModel
 
-class EnderecoForm(forms.ModelForm):
+class ExemploForm(forms.ModelForm):
     class Meta:
-        model = EnderecosModel
-        fields = ['cep']
+        model = ExemploModel
+        fields = ['listaDasVariaveis']
 ```
 
 ## 4. Criar as Views
-No arquivo `enderecos/views.py`, defina as views:
+No arquivo `app/views.py`, defina as views:
 ```python
 from django.views.generic import FormView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .models import EnderecosModel
-from .forms import EnderecoForm
+from .models import ExemploModel
+from .forms import ExemploForm
 
-class EnderecoCreateView(FormView):
-    template_name = 'enderecos/form.html'
-    form_class = EnderecoForm
-    success_url = reverse_lazy('endereco_list')
+class ExemploCreateView(FormView):
+    template_name = 'App/form.html'
+    form_class = ExemploForm
+    success_url = reverse_lazy('html_list')
     
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
 
-class EnderecoListView(ListView):
-    model = EnderecosModel
-    template_name = 'enderecos/list.html'
-    context_object_name = 'enderecos'
+class ExemploListView(ListView):
+    model = ExemploModel
+    template_name = 'App/list.html'
+    context_object_name = 'exemplos'
 
-class EnderecoUpdateView(UpdateView):
-    model = EnderecosModel
+class ExemploUpdateView(UpdateView):
+    model = ExemploModel
     fields = ['cep', 'bairro', 'localidade', 'regiao']
-    template_name = 'enderecos/form.html'
-    success_url = reverse_lazy('endereco_list')
+    template_name = 'App/form.html'
+    success_url = reverse_lazy('html_list')
 
-class EnderecoDeleteView(DeleteView):
-    model = EnderecosModel
-    template_name = 'enderecos/confirm_delete.html'
-    success_url = reverse_lazy('endereco_list')
+class ExemploDeleteView(DeleteView):
+    model = ExemploModel
+    template_name = 'App/confirm_delete.html'
+    success_url = reverse_lazy('html_list')
 ```
 
 ## 5. Configurar as URLs
-No arquivo `enderecos/urls.py`, defina as rotas:
+No arquivo `App/urls.py`, defina as rotas:
 ```python
 from django.urls import path
-from .views import EnderecoCreateView, EnderecoListView, EnderecoUpdateView, EnderecoDeleteView
+from .views import ExemploCreateView, ExemploListView, ExemploUpdateView, ExemploDeleteView
 
 urlpatterns = [
-    path('', EnderecoListView.as_view(), name='endereco_list'),
-    path('novo/', EnderecoCreateView.as_view(), name='endereco_create'),
-    path('<int:pk>/editar/', EnderecoUpdateView.as_view(), name='endereco_update'),
-    path('<int:pk>/deletar/', EnderecoDeleteView.as_view(), name='endereco_delete'),
+    path('', ExemploListView.as_view(), name='html_list'),
 ]
 ```
 
-No arquivo `ConsultaCEP/urls.py`, inclua as rotas do app:
+No arquivo `App/urls.py`, inclua as rotas do app:
 ```python
 from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('enderecos/', include('enderecos.urls')),
+    path('api/', include('app.urls')),
 ]
 ```
 
 ## 6. Criar os Templates
-Crie um diretório `templates/enderecos/` dentro do app e adicione os arquivos:
+Crie um diretório `templates/App/` dentro do app e adicione os arquivos:
 
 **`form.html`**:
-```html
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Salvar</button>
-</form>
-```
-
 **`list.html`**:
-```html
-<ul>
-    {% for endereco in enderecos %}
-        <li>{{ endereco.cep }} - {{ endereco.localidade }}
-            <a href="{{ endereco.pk }}/editar/">Editar</a>
-            <a href="{{ endereco.pk }}/deletar/">Deletar</a>
-        </li>
-    {% endfor %}
-</ul>
-<a href="novo/">Adicionar Novo</a>
-```
-
 **`confirm_delete.html`**:
-```html
-<form method="post">
-    {% csrf_token %}
-    <p>Tem certeza que deseja deletar este endereço?</p>
-    <button type="submit">Confirmar</button>
-</form>
-```
 
 ## 7. Rodar o Servidor
 ```sh
 python manage.py runserver
 ```
 
-Agora você pode acessar `http://127.0.0.1:8000/enderecos/` para visualizar e gerenciar os endereços.
+Agora você pode acessar `http://127.0.0.1:8000/api/` para visualizar e gerenciar os endereços.
 
