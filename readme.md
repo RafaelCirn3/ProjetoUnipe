@@ -92,7 +92,7 @@ from .models import ExemploModel
 from .forms import ExemploForm
 
 class ExemploCreateView(FormView):
-    template_name = 'App/form.html'
+    template_name = 'form.html'
     form_class = ExemploForm
     success_url = reverse_lazy('html_list')
     
@@ -102,18 +102,18 @@ class ExemploCreateView(FormView):
 
 class ExemploListView(ListView):
     model = ExemploModel
-    template_name = 'App/list.html'
+    template_name = 'list.html'
     context_object_name = 'exemplos'
 
 class ExemploUpdateView(UpdateView):
     model = ExemploModel
     fields = ['cep', 'bairro', 'localidade', 'regiao']
-    template_name = 'App/form.html'
+    template_name = 'form.html'
     success_url = reverse_lazy('html_list')
 
 class ExemploDeleteView(DeleteView):
     model = ExemploModel
-    template_name = 'App/confirm_delete.html'
+    template_name = 'confirm_delete.html'
     success_url = reverse_lazy('html_list')
 ```
 
@@ -128,7 +128,7 @@ urlpatterns = [
 ]
 ```
 
-No arquivo `App/urls.py`, inclua as rotas do app:
+No arquivo `Project/urls.py`, inclua as rotas do app:
 ```python
 from django.contrib import admin
 from django.urls import path, include
