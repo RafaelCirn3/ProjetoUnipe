@@ -43,7 +43,7 @@ python manage.py startapp app
 ```
 
 ### Registrar o app `app` no `settings.py`:
-No arquivo `ConsultaCEP/settings.py`, adicione:
+No arquivo `projeto/settings.py`, adicione:
 ```python
 INSTALLED_APPS = [
     'django.contrib.admin',
