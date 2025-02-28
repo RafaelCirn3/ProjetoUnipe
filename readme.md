@@ -34,7 +34,7 @@ pip install django
 ### Criar o projeto Django:
 ```sh
 django-admin startproject projeto
-cd ConsultaCEP
+cd projeto
 ```
 
 ### Criar o aplicativo "app":
