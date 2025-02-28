@@ -72,72 +72,17 @@ python manage.py migrate
 ```
 
 ## 3. Criar os Forms
-No arquivo `app/forms.py`, defina o form:
-```python
-from django import forms
-from .models import ExemploModel
+No arquivo `app/forms.py`, defina o form;
 
-class ExemploForm(forms.ModelForm):
-    class Meta:
-        model = ExemploModel
-        fields = ['listaDasVariaveis']
-```
 
 ## 4. Criar as Views
-No arquivo `app/views.py`, defina as views:
-```python
-from django.views.generic import FormView, ListView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from .models import ExemploModel
-from .forms import ExemploForm
-
-class ExemploCreateView(FormView):
-    template_name = 'form.html'
-    form_class = ExemploForm
-    success_url = reverse_lazy('html_list')
-    
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
-
-class ExemploListView(ListView):
-    model = ExemploModel
-    template_name = 'list.html'
-    context_object_name = 'exemplos'
-
-class ExemploUpdateView(UpdateView):
-    model = ExemploModel
-    fields = ['cep', 'bairro', 'localidade', 'regiao']
-    template_name = 'form.html'
-    success_url = reverse_lazy('html_list')
-
-class ExemploDeleteView(DeleteView):
-    model = ExemploModel
-    template_name = 'confirm_delete.html'
-    success_url = reverse_lazy('html_list')
-```
+No arquivo `app/views.py`, defina as views;
 
 ## 5. Configurar as URLs
-No arquivo `App/urls.py`, defina as rotas:
-```python
-from django.urls import path
-from .views import ExemploCreateView, ExemploListView, ExemploUpdateView, ExemploDeleteView
+No arquivo `App/urls.py`, defina as rotas;
 
-urlpatterns = [
-    path('', ExemploListView.as_view(), name='html_list'),
-]
-```
+No arquivo `Project/urls.py`, inclua as rotas do app;
 
-No arquivo `Project/urls.py`, inclua as rotas do app:
-```python
-from django.contrib import admin
-from django.urls import path, include
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('app.urls')),
-]
-```
 
 ## 6. Criar os Templates
 Crie um diretório `templates/App/` dentro do app e adicione os arquivos:
